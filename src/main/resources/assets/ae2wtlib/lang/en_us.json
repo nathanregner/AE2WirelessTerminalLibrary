@@ -47,6 +47,8 @@
   "key.ae2.ae2wtlib_restock": "Toggle Restock",
   "key.ae2.ae2wtlib_magnet": "Toggle Magnet Card",
   "key.ae2.ae2wtlib_stow": "Stow stack in hand into ME System",
+  "key.ae2.ae2wtlib_cycle_next": "Cycle to next terminal",
+  "key.ae2.ae2wtlib_cycle_prev": "Cycle to previous terminal",
 
   "ae2wtlib.configuration.magnet_card_range": "Magnet Card Range"
 }

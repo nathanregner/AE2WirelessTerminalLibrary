@@ -16,6 +16,7 @@ import net.neoforged.fml.config.ModConfig;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
+import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import net.neoforged.neoforge.common.CommonHooks;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.entity.living.LivingEntityUseItemEvent;
@@ -31,6 +32,7 @@ import appeng.items.tools.powered.powersink.PoweredItemCapabilities;
 
 import de.mari_023.ae2wtlib.api.AE2wtlibAPI;
 import de.mari_023.ae2wtlib.api.terminal.ItemWT;
+import de.mari_023.ae2wtlib.hotkeys.CycleHotkeyAction;
 import de.mari_023.ae2wtlib.networking.*;
 
 @Mod(AE2wtlibAPI.MOD_NAME)
@@ -51,6 +53,9 @@ public class AE2wtlibForge {
             AE2wtlib.onAe2Initialized();
             AE2wtlibCreativeTab.init();
 
+        });
+        modEventBus.addListener((RegisterKeyMappingsEvent e) -> {
+            CycleHotkeyAction.register(e);
         });
         modEventBus.addListener((BuildCreativeModeTabContentsEvent e) -> AE2wtlib.addToCreativeTab());
         modEventBus.addListener((RegisterPayloadHandlersEvent event) -> {
