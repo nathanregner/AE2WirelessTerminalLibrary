@@ -54,7 +54,6 @@ public abstract class WTMenuHost extends WirelessTerminalMenuHost<ItemWT>
     private ILinkStatus linkStatus;
     @UnknownNullability
     private ILinkStatus quantumStatus;
-    private final String closeHotkey;
 
     public WTMenuHost(ItemWT item, Player player, ItemMenuHostLocator locator,
             BiConsumer<Player, ISubMenu> returnToMainMenu) {
@@ -66,17 +65,12 @@ public abstract class WTMenuHost extends WirelessTerminalMenuHost<ItemWT>
                         stack -> createInv(player, stack, AE2wtlibComponents.VIEW_CELL_INVENTORY, 5)));
         singularityInventory = new SupplierInternalInventory<>(
                 new StackDependentSupplier<>(this::getItemStack, stack -> createSingularityInv(player, stack)));
-
-        String close = super.getCloseHotkey();
-        var wtDefinition = WTDefinition.ofOrNull(getItemStack());
-        if (wtDefinition != null)
-            close = wtDefinition.hotkeyName();
-        assert close != null;
-        closeHotkey = close;
     }
 
+    @Override
+    @Nullable
     public String getCloseHotkey() {
-        return closeHotkey;
+        return null;
     }
 
     @Override

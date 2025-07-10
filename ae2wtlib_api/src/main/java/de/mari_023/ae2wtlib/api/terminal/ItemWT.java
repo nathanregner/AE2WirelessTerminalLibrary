@@ -1,19 +1,5 @@
 package de.mari_023.ae2wtlib.api.terminal;
 
-import java.util.function.Supplier;
-
-import org.jetbrains.annotations.Nullable;
-
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.MenuType;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.BlockHitResult;
-
 import appeng.api.config.Settings;
 import appeng.api.config.SortDir;
 import appeng.api.config.SortOrder;
@@ -25,9 +11,20 @@ import appeng.items.tools.powered.WirelessTerminalItem;
 import appeng.menu.MenuOpener;
 import appeng.menu.locator.ItemMenuHostLocator;
 import appeng.menu.locator.MenuLocators;
-
 import de.mari_023.ae2wtlib.api.AE2wtlibAPI;
 import de.mari_023.ae2wtlib.api.registration.WTDefinition;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.BlockHitResult;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.function.Supplier;
 
 public abstract class ItemWT extends WirelessTerminalItem {
     public ItemWT() {
@@ -35,8 +32,15 @@ public abstract class ItemWT extends WirelessTerminalItem {
     }
 
     public boolean open(final Player player, final ItemMenuHostLocator locator,
-            boolean returningFromSubmenu) {
-        return MenuOpener.open(getMenuType(locator, player), player, locator, returningFromSubmenu);
+                        boolean returningFromSubmenu) {
+        var menuType = getMenuType(locator, player);
+        try {
+            if (player.containerMenu.getType() == menuType) {
+                return false;
+            }
+        } catch (UnsupportedOperationException ignored) {
+        }
+        return MenuOpener.open(menuType, player, locator, returningFromSubmenu);
     }
 
     public boolean tryOpen(Player player, ItemMenuHostLocator locator, boolean returningFromSubmenu) {
@@ -65,7 +69,7 @@ public abstract class ItemWT extends WirelessTerminalItem {
 
     @Override
     public WirelessTerminalMenuHost<?> getMenuHost(Player player, ItemMenuHostLocator locator,
-            @Nullable BlockHitResult hitResult) {
+                                                   @Nullable BlockHitResult hitResult) {
         return WTDefinition.of(locator.locateItem(player)).wTMenuHostFactory().create(this, player, locator,
                 (p, subMenu) -> tryOpen(player, locator, true));
     }
